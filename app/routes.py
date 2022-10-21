@@ -1,4 +1,5 @@
 
+
 from flask import Blueprint, jsonify
 
 
@@ -27,6 +28,23 @@ def get_all_books():
         })
     return jsonify(book_response)
 
+#the following is how to make it with a specific link (try this for the pokemon program)
+@books_bp.route("/<book_id>", methods = ["GET"])
+def get_one_book(book_id):
+    try:
+        book_id = int(book_id)
+    except:
+        return {"message": f"book {book_id} invalid"}, 400
+    book_id = int(book_id)
+    for book in books:
+        if book.id == book_id:
+            return {
+                "id" : book.id, 
+                "title" : book.title,
+                "description" : book.description
+            }
+        else:
+            return {"message":f"book {book_id} not found"}, 404
 
 
 
